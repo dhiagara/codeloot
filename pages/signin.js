@@ -7,7 +7,6 @@ import {
   } from 'antd';
   
   const { Option } = Select;
-  const AutoCompleteOption = AutoComplete.Option;
   const sctor=[{
     value: 'xihu',
     label: 'la1',
@@ -70,18 +69,18 @@ import {
   class Signin extends React.Component {
     state = {
       confirmDirty: false,
-      autoCompleteResult: [],
     };
   
     handleSubmit = (e) => {
+      const {sigin} = this.props
       e.preventDefault();
-      this.props.form.validateFieldsAndScroll((err, values) => {
+      this.props.form.validateFieldsAndScroll(async (err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values);
-
-          let body={...values};
-
-
+          let body={state : values.information[0] , university :values.information[1] ,
+             sector : values.information[2]  , ...values};
+          delete body.information
+          console.log('Received values of form: ', body);
+          await  sigin(body)
 
         }
       });
@@ -109,19 +108,9 @@ import {
       callback();
     }
   
-    handleWebsiteChange = (value) => {
-      let autoCompleteResult;
-      if (!value) {
-        autoCompleteResult = [];
-      } else {
-        autoCompleteResult = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
-      }
-      this.setState({ autoCompleteResult });
-    }
   
     render() {
       const { getFieldDecorator } = this.props.form;
-      const { autoCompleteResult } = this.state;
   
       const formItemLayout = {
         labelCol: {
@@ -145,23 +134,12 @@ import {
           },
         },
       };
-      const prefixSelector = getFieldDecorator('prefix', {
-        initialValue: '86',
-      })(
-        <Select style={{ width: 70 }}>
-          <Option value="86">+86</Option>
-          <Option value="87">+87</Option>
-        </Select>
-      );
-  
-      const websiteOptions = autoCompleteResult.map(website => (
-        <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
-      ));
+
   
       return (
         <div style={{ background: '#002347',
         padding: '50px ' }}>
-<Card title="Card title" bordered={false} style={{marginLeft:'30%', width: 500 }}>
+      <Card title="Card title" bordered={false} style={{marginLeft:'30%', width: 500 }}>
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
           <Form.Item
             label="E-mail"
@@ -238,7 +216,7 @@ import {
           <Form.Item
             label="Habitual Residence"
           >
-            {getFieldDecorator('state', {
+            {getFieldDecorator('information', {
               initialValue: ['zhejiang', 'hangzhou', 'xihu',],
               rules: [{ type: 'array', required: true, message: 'Please select your habitual residence!' }],
             })(
@@ -276,8 +254,15 @@ import {
   
 
   
-
+  const mapState = state => ({
+    loading: state.login.loading,
+  })
   
-  export default (Form.create({ name: 'normal_signin' })(Signin));
+  const mapDispatch = ({ sigin: { sigin } }) => ({
+    sigin: (body) => sigin(body)
+  })
+  
+  
+  export default  withRematch(store, mapState, mapDispatch)(Form.create({ name: 'normal_signin' })(Signin));
 
 
