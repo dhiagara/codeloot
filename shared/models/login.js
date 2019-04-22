@@ -3,6 +3,7 @@ import fetch from 'isomorphic-unfetch'
 const login = {
   state: {
     loading :  false,
+    logedUser:''
     
   }, // initial state
   reducers: {
@@ -10,6 +11,11 @@ const login = {
       return {
         loading
       }
+    },
+    setLogedUser(state,logedUser){
+        return {
+          logedUser
+        }
     },
    
   },
@@ -36,7 +42,7 @@ const login = {
         loading = false
         this.setLoading(loading)
         console.log('response azwza :' ,  logedUser)
-       
+       this.setLogedUser(logedUser.userProfile)
         return logedUser
       } catch (err) {
         console.log(err)

@@ -1,14 +1,16 @@
 import React from 'react'
 import { store } from '../shared/store'
 import withRematch from '../shared/utils/withRematch'
-
+import Profile from './userProfile'
 import {
   Form, Icon,Card, Input, Button, Checkbox,
 } from 'antd';
 
 class Login extends React.Component {
     state =  {
-        loading : false
+        loading : false,
+        logedUser:{},
+
     }
   handleSubmit = async(e) => {
       const {loginn} =  this.props
@@ -20,9 +22,11 @@ class Login extends React.Component {
             email:values.userName,
             password:values.password
         }
-        console.log(body)
+        
         this.setState({loading : true})
         await loginn(body)
+        this.setState({logedUser:this.props.logedUser});
+       
         //const res =  await login(body)
        this.setState({loading : false})
 
@@ -30,7 +34,13 @@ class Login extends React.Component {
     });
   }
 
-  render() {
+
+  render() {    
+        if(this.props.logedUser){  
+          return <Profile>
+              {this.props.logedUser.first_name}
+          </Profile>
+      }
 
       console.log(this.props)  
         const { getFieldDecorator,  loading } = this.props.form;
@@ -64,7 +74,7 @@ class Login extends React.Component {
           <Button type="primary" htmlType="submit" loading={this.state.loading} className="login-form-button">
             Log in 
           </Button>
-          Or <a href="">register now!</a>
+          Or <a href="./signin">register now!</a>
         </Form.Item>
       </Form>
     </Card>
@@ -76,6 +86,7 @@ class Login extends React.Component {
 
 const mapState = state => ({
     loading: state.login.loading,
+    logedUser: state.login.logedUser,
   })
   
   const mapDispatch = ({ login: { loginn } }) => ({

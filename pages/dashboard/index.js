@@ -20,15 +20,8 @@ class Dash extends React.Component {
                         description="www.instagram.com"
                     />
                 </Card>
-
-
-            </Layout>
+           </Layout>
         )
     }
-
-
 }
-
-
-
 export default Dash

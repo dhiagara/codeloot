@@ -47,18 +47,18 @@ import {
     value: 'sousse',
     label: 'Sousse',
     children: [{
-      value: 'hangzhou',
+      value: 'isat',
       label: 'isat',
       children:sctor,
     },{
-        value: 'hangzhwou',
+        value: 'ist',
         label: 'ist',
         children: sctor,
     },
 
 
 {
-    value: 'hangzhwou',
+    value: 'isimos',
     label: 'isimos',
     children: sctor,
 }
@@ -139,8 +139,37 @@ import {
       return (
         <div style={{ background: '#002347',
         padding: '50px ' }}>
-      <Card title="Card title" bordered={false} style={{marginLeft:'30%', width: 500 }}>
+      <Card title="Sign in " bordered={false} style={{marginLeft:'30%', width: 500 }}>
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+        <Form.Item
+            label={(
+              <span>
+                firstname
+               
+              </span>
+            )}
+          >
+            {getFieldDecorator('firstName', {
+              rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+            })(
+              <Input />
+            )}
+          </Form.Item>
+          <Form.Item
+            label={(
+              <span>
+                lasname
+               
+              </span>
+            )}
+          >
+            {getFieldDecorator('lastName', {
+              rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+            })(
+              <Input />
+            )}
+          </Form.Item>
+
           <Form.Item
             label="E-mail"
           >
@@ -180,35 +209,7 @@ import {
               <Input type="password" onBlur={this.handleConfirmBlur} />
             )}
           </Form.Item>
-          <Form.Item
-            label={(
-              <span>
-                firstname
-               
-              </span>
-            )}
-          >
-            {getFieldDecorator('firstName', {
-              rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
-            })(
-              <Input />
-            )}
-          </Form.Item>
-          <Form.Item
-            label={(
-              <span>
-                lasname
-               
-              </span>
-            )}
-          >
-            {getFieldDecorator('lastName', {
-              rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
-            })(
-              <Input />
-            )}
-          </Form.Item>
-
+         
 
 
 
@@ -225,7 +226,7 @@ import {
           </Form.Item>
           
           <Form.Item
-          label="Profission"
+          label="Profession"
         >
           {getFieldDecorator('gender')(
             <Radio.Group>
@@ -235,13 +236,7 @@ import {
             </Radio.Group>
           )}
         </Form.Item>
-          <Form.Item {...tailFormItemLayout}>
-            {getFieldDecorator('agreement', {
-              valuePropName: 'checked',
-            })(
-              <Checkbox>I have read the <a href="">agreement</a></Checkbox>
-            )}
-          </Form.Item>
+          
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit">Register</Button>
           </Form.Item>
@@ -255,7 +250,7 @@ import {
 
   
   const mapState = state => ({
-    loading: state.login.loading,
+    //loading: state.sigin.loading,
   })
   
   const mapDispatch = ({ sigin: { sigin } }) => ({
