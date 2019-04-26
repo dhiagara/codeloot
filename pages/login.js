@@ -2,11 +2,30 @@ import React from 'react'
 import { store } from '../shared/store'
 import withRematch from '../shared/utils/withRematch'
 import Profile from './userProfile'
+import Router from 'next/router'
+import jwt from 'jsonwebtoken'
+
 import {
   Form, Icon,Card, Input, Button, Checkbox,
 } from 'antd';
 
 class Login extends React.Component {
+  
+  componentDidMount(){
+   if(localStorage.jwtToken){
+     store.dispatch.login.setLogedUser(jwt.decode(localStorage.jwtToken));
+     Router.push('/userProfile');
+   }
+  
+  }
+  static async getInitialProps ({ isServer, initialState }) {
+  
+    // if (localStorage.jwtToken) {
+    //   await store.dispatch.login.setLogedUser(jwt.decode(localStorage.jwtToken))
+    // }
+    return {}
+  }
+
     state =  {
         loading : false,
         logedUser:{},
@@ -26,7 +45,12 @@ class Login extends React.Component {
         this.setState({loading : true})
         await loginn(body)
         this.setState({logedUser:this.props.logedUser});
-       
+        console.log('from home',this.props.logedUser);
+        console.log(this.props.isAuthenticated);
+        if(this.props.logedUser){ 
+        Router.push('/userProfile');
+        }
+      console.log('from home',localStorage.jwtToken)
         //const res =  await login(body)
        this.setState({loading : false})
 
@@ -36,11 +60,7 @@ class Login extends React.Component {
 
 
   render() {    
-        if(this.props.logedUser){  
-          return <Profile>
-              {this.props.logedUser.first_name}
-          </Profile>
-      }
+  
 
       console.log(this.props)  
         const { getFieldDecorator,  loading } = this.props.form;
@@ -87,6 +107,7 @@ class Login extends React.Component {
 const mapState = state => ({
     loading: state.login.loading,
     logedUser: state.login.logedUser,
+    isAuthenticated:state.login. isAuthenticated
   })
   
   const mapDispatch = ({ login: { loginn } }) => ({

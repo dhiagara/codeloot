@@ -2,11 +2,15 @@ import fetch from 'isomorphic-unfetch'
 
 const  allCourses= {
     state: {
-       
+      courses:[]
         
       }, // initial state
       reducers: {
-       
+        setCourses(state,courses){
+          return {
+           courses
+          }
+      },
         
     },
   
@@ -23,6 +27,7 @@ const  allCourses= {
               },
           })
           const courses = await response.json()
+          this.setCourses(courses)
           console.log('les cours',courses)
             
       } catch (err) {
