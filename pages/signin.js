@@ -1,6 +1,7 @@
 import React from 'react'
 import { store } from '../shared/store'
 import withRematch from '../shared/utils/withRematch'
+import Router from 'next/router'
 
 import {
   Radio, Card,Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete,
@@ -73,6 +74,7 @@ import {
   
     handleSubmit = (e) => {
       const {sigin} = this.props
+    
       e.preventDefault();
       this.props.form.validateFieldsAndScroll(async (err, values) => {
         if (!err) {
@@ -81,7 +83,6 @@ import {
           delete body.information
           console.log('Received values of form: ', body);
           await  sigin(body)
-
         }
       });
     }
@@ -110,6 +111,12 @@ import {
   
   
     render() {
+
+          const {logedUser}=this.props
+          console.log('from signin component',logedUser)
+        if(logedUser){
+          Router.push('/login',)
+        }
       const { getFieldDecorator } = this.props.form;
   
       const formItemLayout = {
@@ -251,6 +258,7 @@ import {
   
   const mapState = state => ({
     //loading: state.sigin.loading,
+    logedUser: state.sigin.logedUser,
   })
   
   const mapDispatch = ({ sigin: { sigin } }) => ({

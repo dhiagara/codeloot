@@ -4,5 +4,6 @@ import login from './login'
 import sigin from './sigin'
 import upload from './upload'
 import  allCourses from './allCourses'
+import getUsers  from './getUsers'
 
-export { counter, login, sigin, github,upload ,allCourses}
+export { counter, login, sigin, github,upload ,allCourses,getUsers}

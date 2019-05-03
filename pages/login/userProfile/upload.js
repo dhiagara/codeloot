@@ -2,8 +2,8 @@ import React from 'react'
 import {
   Upload, Button, Icon, message,Row,Col,Select,Input,Alert
 } from 'antd';
-import { store } from '../../shared/store'
-import withRematch from '../../shared/utils/withRematch'
+import { store } from '../../../shared/store'
+import withRematch from '../../../shared/utils/withRematch'
 
 
 
@@ -13,19 +13,26 @@ import withRematch from '../../shared/utils/withRematch'
       fileList: [],
       uploading: false,
       selectSector:'',
-      coursName : ''
+      coursName : '',
+      language:''
     }
   
     handleUpload =async () => {
+    
       const { fileList } = this.state;
       const { coursName} = this.state;
       const { selectSector } = this.state;
       const {uploadFile}=this.props;
       const {uploadData}=this.props;
-
+      const { language}= this.state;
+      const userName= this.props.logedUser.username;
+      
       const body={
         coursName,
-        selectSector
+        selectSector,
+        language,
+        userName
+
       };
     const formData = new FormData();
    const file=fileList[0];
@@ -64,7 +71,14 @@ for (let i = 10; i < 36; i++) {
 const onChange = (e) => {
   this.setState({coursName:e.target.value});
 };
-      const { uploading, fileList ,selectSector,coursName} = this.state;
+const handleSelect = (e) => {
+  this.setState({ language:e});
+  console.log('staté',this.state. language);
+};
+
+
+
+      const { uploading, fileList ,selectSector,coursName,language} = this.state;
       const props = {
         onRemove: (file) => {
           this.setState((state) => {
@@ -108,13 +122,22 @@ const onChange = (e) => {
           <Col span={6}>
           <Input placeholder="Coursname" onChange={onChange} ></Input>
           </Col>
+          <Col span={6}>
+           <Select defaultValue="language" style={{ width: 120 }} onChange={handleSelect}>
+            <Option value="javaScript">javaScript</Option>
+            <Option value="C">C</Option>
+            <Option value="java">java</Option>
+            <Option value="java">java</Option>
+            <Option value="C">C</Option>
+          </Select>
+          </Col>
           </Row>
           <Row>
           <Col span={6}> 
           <Button
             type="primary"
             onClick={this.handleUpload}
-            disabled={fileList.length === 0 || !selectSector || !coursName  }
+            disabled={fileList.length === 0 || !selectSector || !coursName || !language  }
             loading={uploading}
             style={{ marginTop: 16 }}
           >
@@ -129,7 +152,7 @@ const onChange = (e) => {
     }
   }
   const mapState = state => ({
-    
+    logedUser: state.login.logedUser
   })
   
   const mapDispatch = ({ upload: { uploadFile,uploadData } }) => ({

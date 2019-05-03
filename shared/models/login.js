@@ -7,10 +7,8 @@ const login = {
   state: {
     loading :  false,
     logedUser:'',
-    token:'',
+    error:'',
     isAuthenticated: false,
-    user :{}
-    
   }, // initial state
   reducers: {
     setLoading (state,loading) {
@@ -25,18 +23,20 @@ const login = {
          isAuthenticated:!isEmpty(logedUser)
         }
     },
-    setToken(state,token){
+    setError(state,error){
       return {
-        token
+        error
       }
   },
    
+  
   },
+    
   effects: {
     // handle state changes with impure functions.
     // use async/await for async actions
     
-  
+
     async loginn (payload,body) {
         console.log(payload)
        
@@ -59,24 +59,30 @@ const login = {
             ,null,2)
           })
         const logedUser = await response.json()
+        const error=logedUser.message;
+        console.log('ya zabb',logedUser.success);
+          if(logedUser.success==false){
+            console.log('ya zboub a3likb',logedUser);
+            console.log('ya zboub a3likb',error);
+            this.setError(error);
+            }
+            else{
         const token =logedUser.token;
-        console.log(logedUser.userProfile);
-        this.setToken(token);
-        
-      
         localStorage.setItem('jwtToken',token);
         loading = false
         this.setLoading(loading)
-        console.log('response azwza :' ,  logedUser)
+       
         this.setLogedUser(jwt.decode(token));
-        return logedUser
-
-
-
+        return logedUser}
       } catch (err) {
         console.log(err)
       }
-    }
+    },
+
+logout (payload,body) {  
+    localStorage.removeItem('jwtToken');
+    this.setLogedUser({});
+}   
   }
 }
 

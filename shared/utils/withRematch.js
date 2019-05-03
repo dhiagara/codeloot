@@ -40,8 +40,10 @@ export default (...args) => Component => {
             : getOrCreateStore(initStore, initialState)
       },
       React.createElement(ConnectedComponent, { ...initialProps, ...others })
+      
     )
   }
+
 
   ComponentWithRematch.getInitialProps = async (props = {}) => {
     const isServer = checkServer()

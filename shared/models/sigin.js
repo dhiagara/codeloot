@@ -2,9 +2,15 @@ import fetch from 'isomorphic-unfetch'
 
 const sigin = {
   state: {
+    logedUser:'',
    
   }, // initial state
   reducers: {
+    setLogedUser(state,logedUser){
+      return {
+        logedUser,
+      }
+  },
   
 
   },
@@ -28,7 +34,7 @@ const sigin = {
              , null, 2)
          })
          const logedUser = await response.json()
-          console.log(logedUser)
+         this.setLogedUser(logedUser);
          return logedUser
       } catch (err) {
         console.log(err)
