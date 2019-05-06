@@ -8,20 +8,44 @@ const { Header, Content, Sider } = Layout;
 
 class MainLay extends React.Component {
   state = {
-    users: []
+    usersLa1: [],
+    usersLa2: [],
+    usersLa3: [],
+    usersLf1: [],
+    usersLf2: [],
+    usersLf3: [],
   };
   componentDidMount = async () => {
+    const { isAuthenticated } = this.props;
+    if (!isAuthenticated) {
+      Router.push("/login");
+    }
     const { getUsers } = this.props;
-    const body={
-      university:'isimm',
+    let body={
+      university:this.props.logedUser.university,
+      sector:'la1'
+    }
+    await getUsers(body);
+    this.setState({ usersLa1: this.props.users });
+
+     body={
+      university:this.props.logedUser.university,
       sector:'la2'
     }
     await getUsers(body);
-    this.setState({ users: this.props.users });
-    console.log('balizz logedUser univérsitty',this.props.logedUser);
+    this.setState({ usersLa2: this.props.users });
+
+       body={
+      university:this.props.logedUser.university,
+      sector:'la3'
+    }
+    await getUsers(body);
+    this.setState({ usersLa3: this.props.users });
+
+    console.log('balizz logedUser univérsitty',this.props.logedUser.university);
   };
 
-  handleSubmit = async e => {
+  handleLogout = async e => {
     const { logout } = this.props;
     e.preventDefault();
 
@@ -30,12 +54,7 @@ class MainLay extends React.Component {
 
     console.log(this.props.isAuthenticated);
   };
-  componentDidMount() {
-    const { isAuthenticated } = this.props;
-    if (!isAuthenticated) {
-      Router.push("/login");
-    }
-  }
+ 
 
   // static async getInitialProps ({ isServer, initialState }) {
   //   const {isAuthenticated}=this.props
@@ -60,7 +79,7 @@ class MainLay extends React.Component {
             style={{ lineHeight: "64px" }}
           >
             <Button
-              onClick={this.handleSubmit}
+              onClick={this.handleLogout}
               style={{ position: "absolute", top: "15px", right: "16px" }}
               type="primary"
             >
@@ -103,55 +122,61 @@ class MainLay extends React.Component {
           </Menu>
         </Header>
         <Layout>
-          <Sider width={200} style={{ background: "#fff" }}>
+        <br></br>
+          <Sider width={200} style={{ background: "#fff" ,
+           
+          }}>
+          <div className="logo" /> 
             <Menu
               mode="inline"
               theme="dark"
               defaultSelectedKeys={["1"]}
               defaultOpenKeys={["sub1"]}
-              style={{ height: "100%", borderRight: 0 }}
+              style={{ height: "100%", borderRight: 0 , 'paddingTop':'40px', }}
             >
+              
+               <label style={{ 'marginLeft':'20px', 
+               
+                  'font-size': '20px',
+                 'text-align': 'center',
+                 }} >
+                 {this.props.logedUser.university} students </label>
               <SubMenu
                 key="sub1"
                 title={
                   <span>
                     <Icon type="user" />
-                    subnav 1
+                    la1
                   </span>
                 }
               >
-              {this.state.users.map((user)=> <Menu.Item >{user.first_name}</Menu.Item>)}
+              {this.state.usersLa1.map((user)=> <Menu.Item >{user.first_name}</Menu.Item>)}
                
               </SubMenu>
               <SubMenu
                 key="sub2"
                 title={
                   <span>
-                    <Icon type="laptop" />
-                    subnav 2
+                    <Icon type="user" />
+                  la2
                   </span>
                 }
               >
-                <Menu.Item key="5">option5</Menu.Item>
-                <Menu.Item key="6">option6</Menu.Item>
-                <Menu.Item key="7">option7</Menu.Item>
-                <Menu.Item key="8">option8</Menu.Item>
+                  {this.state.usersLa2.map((user)=> <Menu.Item >{user.first_name}</Menu.Item>)}
               </SubMenu>
               <SubMenu
                 key="sub3"
                 title={
                   <span>
-                    <Icon type="notification" />
-                    subnav 3
+                    <Icon type="user" />
+                   la3
                   </span>
                 }
               >
-                <Menu.Item key="9">option9</Menu.Item>
-                <Menu.Item key="10">option10</Menu.Item>
-                <Menu.Item key="11">option11</Menu.Item>
-                <Menu.Item key="12">option12</Menu.Item>
+                  {this.state.usersLa3.map((user)=> <Menu.Item >{user.first_name}</Menu.Item>)}
               </SubMenu>
             </Menu>
+          
           </Sider>
           <Layout style={{ padding: "0 24px 24px" }}>
             <Breadcrumb style={{ margin: "16px 0" }}>

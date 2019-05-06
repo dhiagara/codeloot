@@ -2,65 +2,87 @@
 
 import React, { Component } from 'react'
 
-import { Card ,Col,Row} from 'antd';
+import { Card ,Col,Row, Pagination} from 'antd';
 import { store } from '../../../shared/store'
 import withRematch from '../../../shared/utils/withRematch'
+
 const { Meta } = Card;
 class Fetchfiles extends Component{
 
   
 state={
   courses:[],
+  pages:2,
+  coursePage:[],
 }
 
   componentDidMount=async()=>{
-    const {getCourses}=this.props;
-    await getCourses();
-     this.setState({courses:this.props.courses});
-     console.log('coursés for map ',this.state.courses)
-  }
-  
-
-    // const response =  fetch('http://localhost:3001/api/signin/files', {
-    //     method: 'GET',
-    //     processData: false,
-    //     mode: 'cors',
     
-    //     headers: {
-    //       'Accept': 'application/json, application/xml, text/plain, text/html, *.*'
-          
-    //     },
-        
-    // })
-    // const file = new Blob(
-    //     [response.data], 
-    //     {type: 'application/pdf'});
-    function =(arams)=> {
+    const {getCourses}=this.props;
+    const tab=[];
 
-      
+    await getCourses();
+     this.setState({courses:this.props.courses,pages:Math.ceil(this.props.courses.length/12)});
+      if(this.state.pages<1){
+     for (let i = 0; i< this.state.courses.length; i++){
+      tab[i]=this.state.courses[i];
+    }}
+    else{
+      for (let i = 0; i< 12; i++){
+        tab[i]=this.state.courses[i];
+      }
     }
+    this.setState({coursePage:tab});
+     console.log('coursés for map ',this.state.courses)
+     console.log('coursePage ',this.state.coursePage);
+  }
 
+  onChange =  e=>{
+    let j =(e*12)-12
+    let tab=[]
+    if(e===this.state.pages){
+      for (let i = j; i <this.state.courses.length; i++)
+        tab[i] =this.state.courses[i]
+    }
+    else{
+     for (let i = j; i <e*12; i++)
+     tab[i] =this.state.courses[i]
+     }
+     this.setState({coursePage:tab}, function(){
+      console.log('nééds to bé fk',this.state.coursePage);
+     });
+    }
+     
+
+   
   render(){
     const javascript="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png"
-    const c="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/800px-ISO_C%2B%2B_Logo.svg.png"
-    const java="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkTjHq7H4du8tOz6hs-QBkfJxVTlqobWaEvLY7KJ0MDjvavEV0"
+    const c="https://blog.softheme.com/wp-content/uploads/2015/10/c-prog.png"
+    const java="http://www.fondsecran.eu/a/get_photo/366135/1024/1024"
+    const php="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxTdF2k5v3EdkQucWurnDokFgulFF5LKXQTzgCnPGChheuKjYEhg"
+
+  
+
     return(
         <div>
          <br></br>
       My courses
 <div style={{ background: '#ECECEC', padding: '30px' }}>
     <Row gutter={8}>
-
-     {this.state.courses.map((course)=><Col span={4}><Card  
+    <div>
+     {this.state.coursePage.map((course)=><Col span={4}><Card  
      style={{ marginBottom: 16, width: 140 }}
-     cover={<img alt="example" style={{}} src={course.language==="java"? java : course.language==="javaScript"? javascript : c } />}
+     cover={<img alt="example" style={{}} src={course.language==="java"? java : course.language==="javaScript"? javascript :  c   } />}
      bordered={false}>
        <Meta
       title={course.cours_name} 
       description= {course.sector}
     />
-      </Card> </Col>)}        
+      </Card> </Col>)}   
+      
+      </div>    
   </Row>
+  <Pagination onChange={this.onChange} total={this.props.courses.length} />
   </div>
   </div>
     )

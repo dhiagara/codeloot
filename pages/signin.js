@@ -4,7 +4,7 @@ import withRematch from '../shared/utils/withRematch'
 import Router from 'next/router'
 
 import {
-  Radio, Card,Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete,
+  Radio, Card,Form, Input, Tooltip, Alert, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete,
   } from 'antd';
   
   const { Option } = Select;
@@ -113,8 +113,8 @@ import {
     render() {
 
           const {logedUser}=this.props
-          console.log('from signin component',logedUser)
-        if(logedUser){
+          console.log('from signin component méssa',logedUser.message)
+        if(logedUser.success){
           Router.push('/login',)
         }
       const { getFieldDecorator } = this.props.form;
@@ -146,7 +146,7 @@ import {
       return (
         <div style={{ background: '#002347',
         padding: '50px ' }}>
-      <Card title="Sign in " bordered={false} style={{marginLeft:'30%', width: 500 }}>
+      <Card title={this.props.logedUser.message? <Alert message={this.props.logedUser.message} type="error" /> :''} bordered={false} style={{marginLeft:'30%', width: 500 }}>
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
         <Form.Item
             label={(

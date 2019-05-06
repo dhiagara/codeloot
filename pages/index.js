@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { store } from '../shared/store'
 import withRematch from '../shared/utils/withRematch'
 import Header from '../shared/components/header'
-import jwt from   'jsonwebtoken'
 class Home extends Component {
   
   

@@ -3,7 +3,7 @@ import { store } from "../../shared/store";
 import withRematch from "../../shared/utils/withRematch";
 import Router from "next/router";
 
-import { Form, Icon, Card, Input, Button, Checkbox } from "antd";
+import { Form, Icon, Card, Input, Button, Checkbox, Alert } from "antd";
 
 class Login extends React.Component {
   state = {
@@ -28,10 +28,6 @@ class Login extends React.Component {
         await loginn(body);
         this.setState({ error: error });
         console.log("aya", error);
-        // if(error){
-        // this.setState({error:this.props.error});
-        // console.log('sayéb zab',this.props.error);}
-
         this.setState({ logedUser: this.props.logedUser });
         this.setState({ loading: false });
       }
@@ -40,6 +36,7 @@ class Login extends React.Component {
 
   render() {
     const { isAuthenticated } = this.props;
+    console.log("amazra9", this.props.logedUser);
     if (isAuthenticated) {
       Router.push("/login/userProfile");
     }
@@ -49,7 +46,13 @@ class Login extends React.Component {
     return (
       <div style={{ background: "#002347", padding: "100px 2px 350px 4px" }}>
         <Card
-          title=""
+          title={
+            this.props.error ? (
+              <Alert message={this.props.error} type="error" />
+            ) : (
+              ""
+            )
+          }
           bordered={false}
           style={{ marginLeft: "40%", width: 300 }}
         >

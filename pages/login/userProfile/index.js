@@ -5,6 +5,12 @@ import Fetchfiles from "./fetchhFiles";
 import { store } from "../../../shared/store";
 import withRematch from "../../../shared/utils/withRematch";
 import Router from "next/router";
+import { Tabs } from 'antd';
+import { Link } from 'react-router-dom'
+import Practice from './practice'
+import Courses from  './studentCourse'
+
+const TabPane = Tabs.TabPane;
 class Profile extends React.Component {
   componentDidMount() {
     const { isAuthenticated } = this.props;
@@ -23,11 +29,32 @@ class Profile extends React.Component {
       </Layout>
     );
     const admin = <Layout />;
-    const etudiant = <Layout />;
+    const etudiant =( <Layout>
+    
+    <div className="card-container">
+    <Tabs type="card">
+      <TabPane tab="My courses" key="1"> 
+      <Courses></Courses>
+      </TabPane>
+      <TabPane tab="I don't know" key="2">
+       
+      </TabPane>
+      <TabPane tab="Practice" key="3">
+      <Practice></Practice>
+      </TabPane>
+    </Tabs>
+  </div>
+
+    </Layout>)
+    
+    
+    
+   
 
     return (
       <div>
-        {gender === "professor"
+      
+        {gender === "Teacher"
           ? teacher
           : gender === "admin"
           ? admin

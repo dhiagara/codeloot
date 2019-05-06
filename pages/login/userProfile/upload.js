@@ -127,7 +127,6 @@ const handleSelect = (e) => {
             <Option value="javaScript">javaScript</Option>
             <Option value="C">C</Option>
             <Option value="java">java</Option>
-            <Option value="java">java</Option>
             <Option value="C">C</Option>
           </Select>
           </Col>
