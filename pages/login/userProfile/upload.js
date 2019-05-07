@@ -59,8 +59,9 @@ import withRematch from '../../../shared/utils/withRematch'
       const Option = Select.Option;
 
 const children = [];
-for (let i = 10; i < 36; i++) {
-  children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
+for (let i = 1; i < 4; i++) {
+  children.push(<Option key={'LA'+ i}>{'LA'+ i}</Option>);
+  children.push(<Option key={'LF'+ i}>{'LF'+ i}</Option>);
 }
 
  const handleChange=(value) =>{
@@ -127,7 +128,7 @@ const handleSelect = (e) => {
             <Option value="javaScript">javaScript</Option>
             <Option value="C">C</Option>
             <Option value="java">java</Option>
-            <Option value="C">C</Option>
+           
           </Select>
           </Col>
           </Row>

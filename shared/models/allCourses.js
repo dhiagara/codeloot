@@ -34,6 +34,24 @@ const  allCourses= {
         console.log(err)
       }
     },
+    async getCourseBySector (payload,body) {
+      try {
+        const response = await fetch('http://localhost:3001/api/upload/CourseBySector', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(payload, null, 2)
+          })
+          const courses = await response.json()
+          this.setCourses(courses)
+          console.log('les cours',courses)
+            
+      } catch (err) {
+        console.log(err)
+      }
+    },
     
   }
 }

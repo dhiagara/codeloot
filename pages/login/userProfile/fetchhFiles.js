@@ -23,7 +23,7 @@ state={
 
     await getCourses();
      this.setState({courses:this.props.courses,pages:Math.ceil(this.props.courses.length/12)});
-      if(this.state.pages<1){
+      if(this.state.pages==1){
      for (let i = 0; i< this.state.courses.length; i++){
       tab[i]=this.state.courses[i];
     }}

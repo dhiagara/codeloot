@@ -137,8 +137,8 @@ class MainLay extends React.Component {
               
                <label style={{ 'marginLeft':'20px', 
                
-                  'font-size': '20px',
-                 'text-align': 'center',
+                  'fontSize': '20px',
+                 'textAlign': 'center',
                  }} >
                  {this.props.logedUser.university} students </label>
               <SubMenu
@@ -150,7 +150,7 @@ class MainLay extends React.Component {
                   </span>
                 }
               >
-              {this.state.usersLa1.map((user)=> <Menu.Item >{user.first_name}</Menu.Item>)}
+              {this.state.usersLa1.map((user)=> <Menu.Item key={user._id} >{user.first_name}</Menu.Item>)}
                
               </SubMenu>
               <SubMenu
@@ -162,7 +162,7 @@ class MainLay extends React.Component {
                   </span>
                 }
               >
-                  {this.state.usersLa2.map((user)=> <Menu.Item >{user.first_name}</Menu.Item>)}
+                  {this.state.usersLa2.map((user)=> <Menu.Item key={user._id} >{user.first_name}</Menu.Item>)}
               </SubMenu>
               <SubMenu
                 key="sub3"
@@ -173,7 +173,7 @@ class MainLay extends React.Component {
                   </span>
                 }
               >
-                  {this.state.usersLa3.map((user)=> <Menu.Item >{user.first_name}</Menu.Item>)}
+                  {this.state.usersLa3.map((user)=> <Menu.Item key={user._id} >{user.first_name}</Menu.Item>)}
               </SubMenu>
             </Menu>
           
