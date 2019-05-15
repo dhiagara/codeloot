@@ -16,10 +16,10 @@ class MainLay extends React.Component {
     usersLf3: [],
   };
   componentDidMount = async () => {
-    const { isAuthenticated } = this.props;
-    if (!isAuthenticated) {
-      Router.push("/login");
-    }
+    // const { isAuthenticated } = this.props;
+    // if (!isAuthenticated) {
+    //   Router.push("/login");
+    // }
     const { getUsers } = this.props;
     let body={
       university:this.props.logedUser.university,
@@ -78,6 +78,7 @@ class MainLay extends React.Component {
             defaultSelectedKeys={["2"]}
             style={{ lineHeight: "64px" }}
           >
+             <Row >
             <Button
               onClick={this.handleLogout}
               style={{ position: "absolute", top: "15px", right: "16px" }}
@@ -105,7 +106,7 @@ class MainLay extends React.Component {
                 fontSize: 20
               }}
             />
-            <Row gutter={8}>
+         
               <Col span={4}>
                 <Icon
                   type="home"

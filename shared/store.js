@@ -1,5 +1,5 @@
 import { init } from '@rematch/core'
-import { counter, github, login, sigin,upload, allCourses,getUsers } from './models'
+import { counter, github, login, sigin,upload, allCourses,getUsers ,CodingModel} from './models'
 
 
 const initialState = {
@@ -14,7 +14,8 @@ export const store = init({
     sigin,
     upload,
     allCourses,
-    getUsers
+    getUsers,
+    CodingModel
   },
   redux: {
     initialState

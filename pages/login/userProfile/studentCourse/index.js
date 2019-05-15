@@ -5,6 +5,7 @@ import React, { Component } from 'react'
 import { Card ,Col,Row, Pagination} from 'antd';
 import { store } from '../../../../shared/store'
 import withRematch from '../../../../shared/utils/withRematch'
+import Router from "next/router";
 
 const { Meta } = Card;
 class Courses extends Component{
@@ -57,6 +58,18 @@ state={
       console.log('nééds to bé fk',this.state.coursePage);
      });
     }
+    
+    handleOnClick = async e=>{
+      const  file_name=e.currentTarget.getAttribute('id')
+      const body={
+        file_name,
+        test:'test',
+      }
+      console.log('cooidiin',e.currentTarget.getAttribute('id'));
+        // Router.push("/coding");
+       const  {getFiles}=this.props
+       await getFiles(body)
+    }
      
 
    
@@ -73,9 +86,13 @@ state={
          <br></br>
       My courses
 <div style={{ background: '#ECECEC', padding: '30px' }}>
-    <Row gutter={8}>
+    <Row gutter={8} key="row1">
     <div>
-     {this.state.coursePage.map((course)=><Col span={4}><Card  
+     {this.state.coursePage.map((course)=><Col id={course.file_name.toString()}  span={4}><Card 
+     id={course.file_name.toString()} 
+     onClick={this.handleOnClick} 
+      key="wazwaz"
+      hoverable="true"
      style={{ marginBottom: 16, width: 140 }}
      cover={<img alt="example" style={{}} src={course.language==="java"? java : course.language==="javaScript"? javascript :  c   } />}
      bordered={false}>
@@ -99,9 +116,9 @@ const mapState = state => ({
   logedUser: state.login.logedUser,
 })
 
-const mapDispatch = ({ allCourses: {getCourseBySector} }) => ({
-    getCourseBySector: body => getCourseBySector(body)
-    
+const mapDispatch = ({ allCourses: {getCourseBySector}, CodingModel:{getFiles} }) => ({
+    getCourseBySector: body => getCourseBySector(body),
+    getFiles :body => getFiles(body)
 })
 
 

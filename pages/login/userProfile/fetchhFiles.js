@@ -71,6 +71,7 @@ state={
     <Row gutter={8}>
     <div>
      {this.state.coursePage.map((course)=><Col span={4}><Card  
+      hoverable="true"
      style={{ marginBottom: 16, width: 140 }}
      cover={<img alt="example" style={{}} src={course.language==="java"? java : course.language==="javaScript"? javascript :  c   } />}
      bordered={false}>

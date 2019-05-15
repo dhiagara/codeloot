@@ -21,10 +21,11 @@ class MyApp extends App {
       pageProps = await Component.getInitialProps(ctx);
 
     }
-    
+
 
     return { pageProps };
   }
+
 
     render() {
         const { Component, pageProps } = this.props;

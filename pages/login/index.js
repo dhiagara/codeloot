@@ -21,7 +21,7 @@ class Login extends React.Component {
         //  console.log('Received values of form: ', values);
         const body = {
           email: values.userName,
-          password: values.password
+          password: values.password,
         };
 
         this.setState({ loading: true });
