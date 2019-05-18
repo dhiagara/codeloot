@@ -10,46 +10,19 @@ import './style/index.less';
 const { Meta } = Card;
 class Coding extends Component{
 
-state={
-  courses:[],
-  pages:2,
-  coursePage:[],
-}
 
-  componentDidMount=async()=>{
-    const {file}=this.props;
-    const {getFiles}=this.props;
-    await getFiles();
-    console.log("fromm comp",file)
-     //Open the URL on new Window
-    //window.open(file);
-    
-    
-  }
 
-   
+
+
+
   render(){
    
     return(
    
     <Layout>
-    <Row gutter={12} >
-    <Col span={10}>
-    <div class='issuu-embed-container'>
-    <iframe src={this.props.file}/>
-    </div>
-    </Col>
-    <div>
-    <Col  span={8}>
-    <Monaco></Monaco>
-    </Col>
    
-      )}   
-      
-      </div>    
-  </Row>
+    <Monaco></Monaco>
   
-<Button type="primary"  size= "large">Submit your code</Button>
   </Layout>
  
     )
@@ -62,7 +35,7 @@ const mapState = state => ({
 })
 
 const mapDispatch = ({CodingModel: {getFiles} }) => ({
-  getFiles: () => getFiles()
+ getFiles :body => getFiles(body)
 })
 
 

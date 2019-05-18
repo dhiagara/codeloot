@@ -61,7 +61,6 @@ const login = {
           localStorage.setItem("jwtToken", token);
           loading = false;
           this.setLoading(loading);
-
           this.setLogedUser(jwt.decode(token));
           return logedUser;
         }

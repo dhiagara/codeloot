@@ -3,8 +3,8 @@
 import React, { Component } from 'react'
 
 import { Card ,Col,Row, Pagination} from 'antd';
-import { store } from '../../../shared/store'
-import withRematch from '../../../shared/utils/withRematch'
+import { store } from '../../../../shared/store'
+import withRematch from '../../../../shared/utils/withRematch'
 
 const { Meta } = Card;
 class Fetchfiles extends Component{

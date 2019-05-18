@@ -1,13 +1,13 @@
 import React from "react";
 import { Layout } from "../../../shared/components";
 import Upload from "./upload";
-import Fetchfiles from "./fetchhFiles";
+import Fetchfiles from "./TeacherCourses/fetchhFiles";
 import { store } from "../../../shared/store";
 import withRematch from "../../../shared/utils/withRematch";
 import Router from "next/router";
 import { Tabs } from 'antd';
 import { Link } from 'react-router-dom'
-import Practice from './practice'
+import Practice from './userWorkCours'
 import Courses from  './studentCourse'
 
 const TabPane = Tabs.TabPane;
@@ -39,7 +39,7 @@ class Profile extends React.Component {
       <TabPane tab="I don't know" key="2">
        
       </TabPane>
-      <TabPane tab="Practice" key="3">
+      <TabPane tab="userWorkCours" key="3">
       <Practice></Practice>
       </TabPane>
     </Tabs>

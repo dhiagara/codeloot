@@ -216,10 +216,6 @@ import {
               <Input type="password" onBlur={this.handleConfirmBlur} />
             )}
           </Form.Item>
-         
-
-
-
 
           <Form.Item
             label="Habitual Residence"

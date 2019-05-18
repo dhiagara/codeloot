@@ -15,6 +15,7 @@ state={
   courses:[],
   pages:2,
   coursePage:[],
+  fail :'no files'
 }
 
   componentDidMount=async()=>{
@@ -24,7 +25,7 @@ state={
     const sector=this.props.logedUser.sector;
    
     const body = {
-    sector:'f15'
+    sector
     };
 
     await getCourseBySector(body);
@@ -41,6 +42,8 @@ state={
     this.setState({coursePage:tab});
      console.log('coursés for map ',this.state.courses)
      console.log('coursePage ',this.state.coursePage);
+
+      console.log('coursePage lént ',this.state.coursePage.length);
   }
 
   onChange =  e=>{
@@ -61,14 +64,9 @@ state={
     
     handleOnClick = async e=>{
       const  file_name=e.currentTarget.getAttribute('id')
-      const body={
-        file_name,
-        test:'test',
-      }
+       localStorage.setItem("file_name", file_name);
       console.log('cooidiin',e.currentTarget.getAttribute('id'));
-        // Router.push("/coding");
-       const  {getFiles}=this.props
-       await getFiles(body)
+       Router.push("/coding");
     }
      
 
@@ -88,7 +86,8 @@ state={
 <div style={{ background: '#ECECEC', padding: '30px' }}>
     <Row gutter={8} key="row1">
     <div>
-     {this.state.coursePage.map((course)=><Col id={course.file_name.toString()}  span={4}><Card 
+     { this.state.courses.length
+     ? this.state.coursePage.map((course)=><Col id={course.file_name.toString()}  span={4}><Card 
      id={course.file_name.toString()} 
      onClick={this.handleOnClick} 
       key="wazwaz"
@@ -100,7 +99,9 @@ state={
       title={course.cours_name} 
       description= {'Professor : '+course.userName}
     />
-      </Card> </Col>)}   
+      </Card> </Col>)
+      : this.state.fail
+      }   
       
       </div>    
   </Row>
