@@ -44,7 +44,7 @@ class Login extends React.Component {
     console.log(this.props);
     const { getFieldDecorator, loading } = this.props.form;
     return (
-      <div style={{ background: "#002347", padding: "100px 2px 350px 4px" }}>
+      <div style={{ background: "#002347", padding: "8% 2px 24% 4px" }}>
         <Card
           title={
             this.props.error ? (

@@ -26,12 +26,14 @@ import withRematch from '../../../shared/utils/withRematch'
       const {uploadData}=this.props;
       const { language}= this.state;
       const userName= this.props.logedUser.username;
-      
+      const proffID= this.props.logedUser.id;
+     
       const body={
         coursName,
         selectSector,
         language,
-        userName
+        userName,
+        proffID
 
       };
     const formData = new FormData();

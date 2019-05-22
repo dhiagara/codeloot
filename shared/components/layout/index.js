@@ -124,7 +124,11 @@ class MainLay extends React.Component {
         </Header>
         <Layout>
         <br></br>
-          <Sider width={200} style={{ background: "#fff" ,
+          <Sider width={200}   
+         style={{ background: "#fff" , overflow: 'auto',
+        height: '100vh',
+       
+        left: 0,
            
           }}>
           <div className="logo" /> 

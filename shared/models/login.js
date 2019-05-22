@@ -71,6 +71,7 @@ const login = {
 
     logout(payload, body) {
       localStorage.removeItem("jwtToken");
+      localStorage.clear()
       this.setLogedUser({});
     }
   }

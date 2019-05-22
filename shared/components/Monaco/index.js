@@ -1,11 +1,12 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 //import  MonacoEditor from 'react-monaco-editor';
-import { Card ,Col,Row, Pagination,Button} from 'antd';
+import { Card ,Col,Row, Pagination,Button,message} from 'antd';
 import { store } from "../../store";
 import withRematch from "../../utils/withRematch"
 import './style/index.less';
 import Link from 'next/link'
+
 
 const { Meta } = Card;
 let  MonacoEditor=dynamic(import('react-monaco-editor') ,{
@@ -19,15 +20,30 @@ let  MonacoEditor=dynamic(import('react-monaco-editor') ,{
  class Monaco extends React.Component {
   
     state = {
-      code: '// type your code...',
+      code: '',
         courses:[],
   pages:2,
   coursePage:[],
   work:'',
+  message:'',
+  updateCode:'Submit your code'
     }
-  
+   getInitialProps = ({query}) => {
+     console.log("queryyyyy",query)
+    }
+    componentWillUnmount=()=>{
+      localStorage.removeItem("file_code");
+     
+
+    }
+
 
   componentDidMount=async()=>{
+   
+    this.setState({code:localStorage.file_code})
+    if(localStorage.file_code)
+    this.setState({updateCode:'update your code'})
+
      const  {getFiles}=this.props
      const  file_name=localStorage.file_name
      console.log(file_name);
@@ -42,6 +58,7 @@ let  MonacoEditor=dynamic(import('react-monaco-editor') ,{
  handleClick = async()=>{
    const {studentCode}=this.props
     const {logedUser}=this.props
+    const {studentUpdateCode}=this.props
     console.log('yoo',logedUser);
     const studentID=logedUser.id;
     const  file_name=localStorage.file_name;
@@ -51,9 +68,27 @@ let  MonacoEditor=dynamic(import('react-monaco-editor') ,{
       studentID,
       file_name,
       code
-    }    
-    await studentCode(body);
+    }  
+    let res=''  
+    if(!localStorage.file_code)
+       res=  await studentCode(body);
+  else{
+   res=  await studentUpdateCode(body);
+   localStorage.setItem("file_code",code);
 
+   }
+
+  console.log("message",res)
+  console.log("message succéss",res.message)
+  if(res.success===false){
+    message.warning( res.message);
+}
+  else
+  message.success( res.message);
+ 
+
+
+   
    
 
   }
@@ -111,7 +146,7 @@ let  MonacoEditor=dynamic(import('react-monaco-editor') ,{
   </Row>
   <Row >
   <Col span={3}>
-<Button type="primary"  size= "large" onClick={this.handleClick}>Submit your code</Button>
+<Button type="primary"  size= "large" onClick={this.handleClick}>{this.state.updateCode}</Button>
 </Col >
 <Col span={3}>
 <Link   href="/login/userProfile"><Button size= "large" >Back to courses</Button></Link> 
@@ -130,9 +165,10 @@ const mapState = state => ({
  
 })
 
-const mapDispatch = ({CodingModel: {getFiles} ,studentCode :{studentCode}}) => ({
+const mapDispatch = ({CodingModel: {getFiles} ,studentCode :{studentCode,studentUpdateCode}}) => ({
  getFiles :body => getFiles(body),
- studentCode :body =>studentCode(body)
+ studentCode :body =>studentCode(body),
+ studentUpdateCode:body =>studentUpdateCode(body),
 })
 
 

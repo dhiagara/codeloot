@@ -65,12 +65,11 @@ state={
 
     return(
         <div>
-         <br></br>
-      My courses
+      
 <div style={{ background: '#ECECEC', padding: '30px' }}>
     <Row gutter={8}>
     <div>
-     {this.state.coursePage.map((course)=><Col span={4}><Card  
+     {this.state.coursePage.map((course)=><Col md={{ span: 12, }}  xl={{ span: 4 }}  xs={{ span: 16 }} lg={{ span: 6, }}><Card  
       hoverable="true"
      style={{ marginBottom: 16, width: 140 }}
      cover={<img alt="example" style={{}} src={course.language==="java"? java : course.language==="javaScript"? javascript :  c   } />}

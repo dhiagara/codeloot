@@ -9,15 +9,24 @@ import { Tabs } from 'antd';
 import { Link } from 'react-router-dom'
 import Practice from './userWorkCours'
 import Courses from  './studentCourse'
+import Students from './TeacherCourses/myStudents'
 
 const TabPane = Tabs.TabPane;
 class Profile extends React.Component {
+  state = {
+    
+    current:"1",
+  };
   componentDidMount() {
     const { isAuthenticated } = this.props;
     if (!isAuthenticated) {
       Router.push("/login");
     }
   }
+  navigate = e => {
+    console.log('key', e.key);
+    this.setState({ current: e.key });
+  };
 
   render() {
     const { logedUser } = this.props;
@@ -25,14 +34,33 @@ class Profile extends React.Component {
     const teacher = (
       <Layout>
         <Upload />
-        <Fetchfiles />
+        <br></br>
+      My courses
+        <div className="card-container">
+    <Tabs type="card"  defaultActiveKey={this.state.current}  onClick={this.navigate}>
+      <TabPane tab="My courses" key="1"> 
+      <Fetchfiles />
+      </TabPane>
+      <TabPane tab="Student work" key="2">
+       <Students></Students>
+      </TabPane>
+     
+    </Tabs>
+  </div>
+
+
+
+
+
+
+        
       </Layout>
     );
     const admin = <Layout />;
     const etudiant =( <Layout>
     
     <div className="card-container">
-    <Tabs type="card">
+    <Tabs type="card"  defaultActiveKey={this.state.current}  onClick={this.navigate}>
       <TabPane tab="My courses" key="1"> 
       <Courses></Courses>
       </TabPane>
@@ -49,6 +77,7 @@ class Profile extends React.Component {
     
     
     
+  
    
 
     return (

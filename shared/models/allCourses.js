@@ -65,12 +65,13 @@ const  allCourses= {
               body: JSON.stringify(payload, null, 2)
           })
           const courses = await response.json()
-            console.log("coursesbyfileName",courses);
+         return courses
             
       } catch (err) {
         console.log(err)
       }
     },
+    
     
   }
 }

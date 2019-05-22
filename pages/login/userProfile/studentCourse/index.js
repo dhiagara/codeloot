@@ -84,10 +84,10 @@ state={
          <br></br>
       My courses
 <div style={{ background: '#ECECEC', padding: '30px' }}>
-    <Row gutter={8} key="row1">
+    <Row grid={{ gutter: 8, xl: 8, lg: 6, md: 4, sm: 2, xs: 1 }} key="row1">
     <div>
      { this.state.courses.length
-     ? this.state.coursePage.map((course)=><Col id={course.file_name.toString()}  span={4}><Card 
+     ? this.state.coursePage.map((course)=><Col id={course.file_name.toString()} md={{ span: 12, }}  xl={{ span: 4 }}  xs={{ span: 16 }} lg={{ span: 6, }}><Card 
      id={course.file_name.toString()} 
      onClick={this.handleOnClick} 
       key="wazwaz"

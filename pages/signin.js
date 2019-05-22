@@ -145,7 +145,7 @@ import {
   
       return (
         <div style={{ background: '#002347',
-        padding: '50px ' }}>
+         padding: "8% 10px 7% 70px" }}>
       <Card title={this.props.logedUser.message? <Alert message={this.props.logedUser.message} type="error" /> :''} bordered={false} style={{marginLeft:'30%', width: 500 }}>
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
         <Form.Item

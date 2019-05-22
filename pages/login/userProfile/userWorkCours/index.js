@@ -18,25 +18,40 @@ class Practice extends Component {
     const { getCourseByfileName } = this.props;
      const {getStudentWorkbyID}=this.props;
     const tab = [];
-    const sector = this.props.logedUser.sector;
     const userID = this.props.logedUser.id;
     console.log("uér id", userID);
     let body = {
      userID 
     };
 
-     const fileName=await getStudentWorkbyID(body);
-
-
-    for(let i=0;i<fileName.length;i++ ){
-        if(fileName[i].file_name){
-            body={
-                file_name:fileName[i].file_name
-            }
-            console.log(body)
-      await getCourseByfileName(body);
+     const files=await getStudentWorkbyID(body);
+     console.log("new new",files)
+    let file_name=[]
+    let file_code=[]
+    let j=0;
+    for(let i=0;i<files.length;i++ ){
+        if(files[i].file_name){
+          file_name[j]=files[i].file_name
+          file_code[j]=files[i].code
+          j++
+           
       }
-     this.setState({courses:this.props.courses,pages:Math.ceil(this.props.courses.length/12)});
+    }
+    console.log('ya3 namé',file_name)
+    console.log('ya3 codé',file_code)
+    body={
+      file_name,
+      file_code
+  }
+  const courses =await getCourseByfileName(body);
+  for(let i=0;i<files.length;i++)
+  courses.map(course=>{
+    if(course.file_name===files[i].file_name)
+    course.code=files[i].code;
+  })
+  console.log("yo333",courses)
+ 
+     this.setState({courses,pages:Math.ceil(courses.length/12)});
       if(this.state.pages==1){
      for (let i = 0; i< this.state.courses.length; i++){
       tab[i]=this.state.courses[i];
@@ -51,14 +66,6 @@ class Practice extends Component {
      console.log('coursePage ',this.state.coursePage);
 
       console.log('coursePage lént ',this.state.coursePage.length);
-
-
-
-
-    }
-
-
-
   };
 
   onChange = e => {
@@ -76,10 +83,17 @@ class Practice extends Component {
   };
 
   handleOnClick = async e => {
-    const file_name = e.currentTarget.getAttribute("id");
+   
+    const file=e.currentTarget.getAttribute("id").split('***')
+    console.log(file)
+    const file_name =file[0];
+    const file_code=file[1]
+    console.log("id", file_name)
+    console.log("code", file_code)
     localStorage.setItem("file_name", file_name);
+    localStorage.setItem("file_code", file_code);
     console.log("cooidiin", e.currentTarget.getAttribute("id"));
-    Router.push("/coding");
+    Router.push("/coding",'updat');
   };
 
   render() {
@@ -99,11 +113,13 @@ class Practice extends Component {
             <div>
               {this.state.courses.length
                 ? this.state.coursePage.map(course => (
-                    <Col id={course.file_name.toString()} span={4}>
+                
+                    <Col  span={4}>
                       <Card
-                        id={course.file_name.toString()}
+                        id={course.file_name+'***'+course.code}
+
                         onClick={this.handleOnClick}
-                        key="wazwaz"
+                        key={course.file_name}
                         hoverable="true"
                         style={{ marginBottom: 16, width: 140 }}
                         cover={
@@ -133,7 +149,7 @@ class Practice extends Component {
           </Row>
           <Pagination
             onChange={this.onChange}
-            total={this.props.courses.length}
+            total={this.state.courses.length}
           />
         </div>
       </div>
