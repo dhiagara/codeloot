@@ -56,6 +56,28 @@ const  studentCode= {
         console.log(err)
       }
     },  
+    async submitNote (payload,body) {  
+      try {
+        const response = await fetch('http://localhost:3001/api/studentWork/submitNote', {
+            method: 'PATCH',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+              },
+                body: JSON.stringify(
+             payload
+             , null, 2)
+          })
+          const courses = await response.json()
+         
+          console.log('les courszaw',courses)
+          return courses
+            
+      } catch (err) {
+        console.log(err)
+      }
+    },  
+    
     async getStudentWorkbyID (payload,body) {
       try {
         const response = await fetch('http://localhost:3001/api/studentWork/getByID', {

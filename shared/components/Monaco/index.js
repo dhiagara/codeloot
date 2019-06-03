@@ -1,7 +1,7 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 //import  MonacoEditor from 'react-monaco-editor';
-import { Card ,Col,Row, Pagination,Button,message} from 'antd';
+import { Card ,Col,Row, Pagination,Button,message,InputNumber} from 'antd';
 import { store } from "../../store";
 import withRematch from "../../utils/withRematch"
 import './style/index.less';
@@ -26,7 +26,9 @@ let  MonacoEditor=dynamic(import('react-monaco-editor') ,{
   coursePage:[],
   work:'',
   message:'',
-  updateCode:'Submit your code'
+  updateCode:'Submit your code',
+  noteField:false,
+  note:''
     }
    getInitialProps = ({query}) => {
      console.log("queryyyyy",query)
@@ -39,11 +41,17 @@ let  MonacoEditor=dynamic(import('react-monaco-editor') ,{
 
 
   componentDidMount=async()=>{
-   
+    console.log("boom bitc",localStorage.component);
+    if(localStorage.component==="teacher"){
+      console.log("rtacher");
+      this.setState({updateCode:'submit note'})
+      this.setState({code:localStorage.file_code,noteField:true});
+    }
+   else{
     this.setState({code:localStorage.file_code})
     if(localStorage.file_code)
     this.setState({updateCode:'update your code'})
-
+  }
      const  {getFiles}=this.props
      const  file_name=localStorage.file_name
      console.log(file_name);
@@ -55,13 +63,19 @@ let  MonacoEditor=dynamic(import('react-monaco-editor') ,{
     await getFiles(body)
 
   }
+  handleNote=(note)=>{
+    this.setState({note})
+  }
  handleClick = async()=>{
    const {studentCode}=this.props
     const {logedUser}=this.props
     const {studentUpdateCode}=this.props
+    const {submitNote}=this.props
     console.log('yoo',logedUser);
     const studentID=logedUser.id;
     const  file_name=localStorage.file_name;
+    const  id=localStorage.id;
+    const {note}=this.state
     console.log( file_name)
     const {code}=this.state
     const body ={
@@ -69,14 +83,26 @@ let  MonacoEditor=dynamic(import('react-monaco-editor') ,{
       file_name,
       code
     }  
+    const notee={
+      file_name,
+      id,
+      note
+    }
     let res=''  
+    console.log("boom bitc",localStorage.component);
+    if(localStorage.component==="teacher"){
+      res = await submitNote(notee);
+      console.log("rtacher");
+      this.setState({updateCode:'submit note'})
+    }
+    else{
     if(!localStorage.file_code)
        res=  await studentCode(body);
   else{
    res=  await studentUpdateCode(body);
    localStorage.setItem("file_code",code);
 
-   }
+   }}
 
   console.log("message",res)
   console.log("message succéss",res.message)
@@ -85,12 +111,6 @@ let  MonacoEditor=dynamic(import('react-monaco-editor') ,{
 }
   else
   message.success( res.message);
- 
-
-
-   
-   
-
   }
   onChange=(newValue, e)=> {
     console.log('onChange', newValue);
@@ -123,7 +143,7 @@ let  MonacoEditor=dynamic(import('react-monaco-editor') ,{
     <Col  span={8}>
       <div>
       <MonacoEditor
-        width="400"
+        width="700"
         height="600"
         language="javascript"
         theme="vs-dark"
@@ -145,6 +165,10 @@ let  MonacoEditor=dynamic(import('react-monaco-editor') ,{
       </div>    
   </Row>
   <Row >
+  {this.state.noteField
+  ? (<div><Col span={3}><InputNumber min={1} max={20} defaultValue={0} size="large" onChange={this.handleNote}/></Col></div>)
+  :<div></div>
+  }
   <Col span={3}>
 <Button type="primary"  size= "large" onClick={this.handleClick}>{this.state.updateCode}</Button>
 </Col >
@@ -165,10 +189,12 @@ const mapState = state => ({
  
 })
 
-const mapDispatch = ({CodingModel: {getFiles} ,studentCode :{studentCode,studentUpdateCode}}) => ({
+const mapDispatch = ({CodingModel: {getFiles} ,studentCode :{studentCode,studentUpdateCode,submitNote}}) => ({
  getFiles :body => getFiles(body),
  studentCode :body =>studentCode(body),
  studentUpdateCode:body =>studentUpdateCode(body),
+ 
+ submitNote:body =>submitNote(body),
 })
 
 

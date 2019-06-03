@@ -1,0 +1,46 @@
+@primary2-grad: linear-gradient(135deg, rgb(18, 35, 63) 0%, rgb(20, 44, 85) 100%);
+@suggest-grad: linear-gradient(180deg, #1285ff 0%, #20d1ff 100%);
+@primary-grad: linear-gradient(135deg, rgb(26, 50, 90) 0%, rgb(48, 104, 202) 100%);
+@secondary-grad: linear-gradient(135deg, #916bff 0%, #3366ff 98.38%);
+@tertiary-grad: linear-gradient(135deg, #d438ff 0%, #8c58ff 100%);
+
+
+
+
+
+
+.layout {
+  .header {
+    padding: 0px;
+    background: transparent;
+  }
+ label{
+   font: normal 16px/22px "GothamRoundedLight", sans-serif;
+   color: 	#FFFFFF
+ }
+  .menu {
+    background: @primary-grad;
+    width: 100%;
+  
+  }
+  .Left{
+    float: right;
+
+  }
+
+  .setting {
+    background:#001529;
+    border: none;
+    padding:10px;
+
+    .down {
+      background: transparent;
+      border: solid black;
+      border-width: 0 3px 3px 0;
+      display: inline-block;
+      padding: 3px;
+      transform: rotate(45deg);
+      -webkit-transform: rotate(45deg);
+    }
+  }
+}

@@ -41,7 +41,7 @@ class Profile extends React.Component {
       <TabPane tab="My courses" key="1"> 
       <Fetchfiles />
       </TabPane>
-      <TabPane tab="Student work" key="2">
+      <TabPane tab="Students work" key="2">
        <Students></Students>
       </TabPane>
      

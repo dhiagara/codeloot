@@ -3,6 +3,7 @@ import { Table, Divider, Tag,Row,Col,Select,Input} from 'antd';
 import { store } from "../../../../shared/store";
 import withRematch from "../../../../shared/utils/withRematch";
 import './style/index.less';
+import Router from 'next/router'
 const Search = Input.Search;
 
 class Students extends Component {
@@ -13,7 +14,9 @@ class Students extends Component {
     error: '',
     students:[],
     studentsMap:[],
-    value:''
+    value:'',
+    file_name:'',
+    file_code:'',
   };
 
 
@@ -22,17 +25,39 @@ class Students extends Component {
     const {myStudents}=this.props;
     console.log('from StudentsCompnent',logedUser)
    const {id}=logedUser
-   
-    
     const body ={
       proffID:id
     }
     console.log("id",body)
-     const students= await myStudents(body);
-     console.log("fromstudentsComonent",students)
-     this.setState({students,studentsMap:students});
+     const res= await myStudents(body);
+     let students=[]
+     console.log("fromstudentsComonent",res);
+    for(let i=0;i<res.length;i++){
+      students[i]=res[i].user
+      students[i].file_name=res[i].file_name
+      students[i].file_code=res[i].code
+      students[i].note=res[i].note
+
+    }
+    console.log("fromstudentsComonent",students);
+     this.setState({students:students,studentsMap:students});
+    
+     //console.log('fil_codé +filNamé',file_code,file_name)
 
   }
+
+   handleClick =(e)=>{
+   
+    localStorage.setItem("file_name",e.file_name);
+  localStorage.setItem("file_code", e.file_code);
+  localStorage.setItem("id",e._id);
+  
+
+  localStorage.setItem("component", "teacher");
+  Router.push("/coding");
+
+  }
+
     render() {
     const { Column, ColumnGroup } = Table;
     const Option = Select.Option;
@@ -63,6 +88,7 @@ class Students extends Component {
     const handleonSearch = value=>{
       this.setState({value})
     }
+   
 
 
 
@@ -71,12 +97,12 @@ class Students extends Component {
 
     const children = [];
     for (let i = 1; i < 4; i++) {
-      children.push(<Option key={'la' + i}>{'la' + i}</Option>);
-      children.push(<Option key={'lf' + i}>{'lf' + i}</Option>);
+      children.push(<Option key={'LA' + i}>{'LA' + i}</Option>);
+      children.push(<Option key={'LF' + i}>{'LF' + i}</Option>);
     }
 
     return (
-        <div style={{ background: '#ECECEC', padding: '30px' }}>
+        <div style={{ background: '#EFF0D1', padding: '30px' }}>
       <div className="main">
         <div className="filter">
         <Row gutter={6}> 
@@ -101,9 +127,10 @@ class Students extends Component {
 </div>
 
      
-  <Table dataSource={this.state.studentsMap.filter(tab=>
-        tab.first_name.indexOf(value)>=0
-      )}>
+  <Table onRowClick={this.handleClick}  rowKey={this.state.studentsMap.id} dataSource={this.state.studentsMap.filter(tab=>
+        tab.first_name.indexOf(value)>=0 
+      )
+      }>
     <ColumnGroup title="Name">
       <Column
         title="first_name"
@@ -126,18 +153,13 @@ class Students extends Component {
       dataIndex="sector"
       key="sector"
     />
-    
-    <Column
-      title="Action"
-      key="action"
-      render={(text, record) => (
-        <span>
-          <a href="javascript:;">Invite {record.lastName}</a>
-          <Divider type="vertical" />
-          <a href="javascript:;">Delete</a>
-        </span>
-      )}
+     <Column
+      title="note"
+      dataIndex="note"
+      key="note"
     />
+    
+  
   </Table>
       </div>
       </div>

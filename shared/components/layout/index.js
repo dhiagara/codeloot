@@ -1,8 +1,9 @@
-import { Layout, Menu, Breadcrumb, Icon, Button, Badge, Row, Col } from "antd";
+import { Layout, Menu, Breadcrumb, Icon, Button, Badge, Row, Col ,Dropdown,Avatar} from "antd";
 import { store } from "../../store";
 import withRematch from "../../utils/withRematch";
 import Router from "next/router";
-
+import Profile from './profileCard'
+import './style/index.less';
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
@@ -14,6 +15,7 @@ class MainLay extends React.Component {
     usersLf1: [],
     usersLf2: [],
     usersLf3: [],
+    update:false
   };
   componentDidMount = async () => {
     // const { isAuthenticated } = this.props;
@@ -47,13 +49,22 @@ class MainLay extends React.Component {
 
   handleLogout = async e => {
     const { logout } = this.props;
-    e.preventDefault();
+   
 
     await logout();
     Router.push("/login");
 
     console.log(this.props.isAuthenticated);
   };
+
+  handleUpdate  =  e => {
+    this.setState({update:true})
+    Router.push('/updateProfile')
+  };
+  handleHome  =  e => {
+    Router.push('/login')
+  };
+  
  
 
   // static async getInitialProps ({ isServer, initialState }) {
@@ -67,65 +78,67 @@ class MainLay extends React.Component {
   render() {
     const username = this.props.logedUser.username;
     const { children } = this.props;
+    const menu = (
+      <Menu className="menu" onClick={this.navigate}>
+        <Menu.Item key="profile">Profile</Menu.Item>
+        <Menu.Item key="setting">setting</Menu.Item>
+        <Menu.Item key="logout" onClick={this.handleLogout} >logOut</Menu.Item>
+      </Menu>
+        );
 
     return (
-      <Layout>
+      <Layout className="layout ">
         <Header className="header">
           <div className="logo" />
           <Menu
             theme="dark"
             mode="horizontal"
             defaultSelectedKeys={["2"]}
-            style={{ lineHeight: "64px" }}
+            style={{ lineHeight: "64px",background:"#141B41"}}
           >
-             <Row >
+             <Row type="flex" justify="end">
+             <Col span={2}>
+             <img alt="example" style={{height:'50px',width:'50px'}} src="https://image.freepik.com/free-vector/university-degree-logo_23-2147501873.jpg"></img>
+              </Col>
+
+           
+            
+              <Col span={14}>
+                <label> Welcome to Universities Code</label>
+              </Col>
+              <Col  span={2}>
             <Button
-              onClick={this.handleLogout}
-              style={{ position: "absolute", top: "15px", right: "16px" }}
+              onClick={this.handleHome}
               type="primary"
+            
             >
-              Logout
+              Home
             </Button>
-            <Icon
-              type="setting"
-              theme="twoTone"
-              style={{
-                position: "absolute",
-                top: "20px",
-                right: "110px",
-                fontSize: 20
-              }}
-            />
-            <Icon
-              type="notification"
-              theme="twoTone"
-              style={{
-                position: "absolute",
-                top: "20px",
-                right: "140px",
-                fontSize: 20
-              }}
-            />
-         
-              <Col span={4}>
-                <Icon
-                  type="home"
-                  theme="twoTone"
-                  style={{
-                    fontSize: 20
-                  }}
-                />
-              </Col>
-              <Col span={4}>
-                <label> {username} </label>
-              </Col>
+            </Col>
+              <Col span={3}>
+            <Button
+            onClick={this.handleUpdate}
+             type="primary"
+           >
+             Update Profile
+           </Button>
+           </Col>
+              <Col span={2}>
+            <Dropdown overlay={menu} placement="bottomLeft">
+              <Button className="setting">
+              <img  style={{height:'50px',width:'50px'}} src="http://images.clipartpanda.com/user-clipart-matt-icons_preferences-desktop-personal.png" />
+                &nbsp;&nbsp;
+                <i className="down" />
+              </Button>
+            </Dropdown>
+            </Col>
             </Row>
           </Menu>
         </Header>
         <Layout>
         <br></br>
-          <Sider width={200}   
-         style={{ background: "#fff" , overflow: 'auto',
+          <Sider width={300}   
+         style={{background:"#141B41" , overflow: 'auto',
         height: '100vh',
        
         left: 0,
@@ -137,53 +150,15 @@ class MainLay extends React.Component {
               theme="dark"
               defaultSelectedKeys={["1"]}
               defaultOpenKeys={["sub1"]}
-              style={{ height: "100%", borderRight: 0 , 'paddingTop':'40px', }}
+              style={{ height: "100%", borderRight: 0 , 'paddingTop':'40px', background:"#141B41"}}
             >
+            <Profile></Profile>
               
-               <label style={{ 'marginLeft':'20px', 
-               
-                  'fontSize': '20px',
-                 'textAlign': 'center',
-                 }} >
-                 {this.props.logedUser.university} students </label>
-              <SubMenu
-                key="sub1"
-                title={
-                  <span>
-                    <Icon type="user" />
-                    la1
-                  </span>
-                }
-              >
-              {this.state.usersLa1.map((user)=> <Menu.Item key={user._id} >{user.first_name}</Menu.Item>)}
-               
-              </SubMenu>
-              <SubMenu
-                key="sub2"
-                title={
-                  <span>
-                    <Icon type="user" />
-                  la2
-                  </span>
-                }
-              >
-                  {this.state.usersLa2.map((user)=> <Menu.Item key={user._id} >{user.first_name}</Menu.Item>)}
-              </SubMenu>
-              <SubMenu
-                key="sub3"
-                title={
-                  <span>
-                    <Icon type="user" />
-                   la3
-                  </span>
-                }
-              >
-                  {this.state.usersLa3.map((user)=> <Menu.Item key={user._id} >{user.first_name}</Menu.Item>)}
-              </SubMenu>
+             
             </Menu>
           
           </Sider>
-          <Layout style={{ padding: "0 24px 24px" }}>
+          <Layout style={{ padding: "0 24px 24px"  ,background:"#EFF0D1"}}>
             <Breadcrumb style={{ margin: "16px 0" }}>
               <Breadcrumb.Item>Welcome</Breadcrumb.Item>
               <Breadcrumb.Item />
@@ -196,7 +171,10 @@ class MainLay extends React.Component {
                 minHeight: 280
               }}
             >
-              {children}
+            {this.state.update      
+              ?<div></div>
+              :children
+            }
             </Content>
           </Layout>
         </Layout>

@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-unfetch'
+import { updateLocale } from 'moment';
 
 const  allCourses= {
     state: {
@@ -34,6 +35,33 @@ const  allCourses= {
         console.log(err)
       }
     },
+
+    async updateCourse (payload,body) {
+      try {
+        const response = await fetch('http://localhost:3001/api/upload/updateCourses', {
+            method: 'PATCH',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(payload, null, 2)
+          })
+          const courses = await response.json()
+          console.log('les cours',courses)
+         return courses
+         
+            
+      } catch (err) {
+        console.log(err)
+      }
+    },
+
+
+
+
+
+
+
     async getCourseBySector (payload,body) {
       try {
        

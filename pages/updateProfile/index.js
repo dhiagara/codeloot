@@ -1,10 +1,11 @@
 import React from 'react'
-import { store } from '../shared/store'
-import withRematch from '../shared/utils/withRematch'
-import Router from 'next/router'
+import { Layout } from '../../shared/components'
+import withRematch from '../../shared/utils/withRematch'
+import { store } from '../../shared/store'
+import './style/index.less'
 
 import {
-  Radio, Card,Form, Input, Tooltip, Alert, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete,
+  Radio, Card,Form, Input, Tooltip, Alert, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete,message
   } from 'antd';
   
   const { Option } = Select;
@@ -67,23 +68,28 @@ import {
     
   }];
   
-  class Signin extends React.Component {
+  class Dash extends React.Component {
     state = {
       confirmDirty: false,
     };
   
     handleSubmit = (e) => {
-      const {sigin} = this.props
-    
+      const {  updateProfile} = this.props
+      const {logedUser}= this.props;
+      const id=logedUser.id
+      console.log('loéusér',logedUser);
+       let res ='';
       e.preventDefault();
       this.props.form.validateFieldsAndScroll(async (err, values) => {
         if (!err) {
           let body={state : values.information[0] , university :values.information[1] ,
-             sector : values.information[2]  , ...values};
+             sector : values.information[2]  , ...values,id};
           delete body.information
           console.log('Received values of form: ', body);
-          await  sigin(body)
+         res =await      updateProfile(body)
         }
+        if(res.success)
+        message.success('profile Updated')
       });
     }
   
@@ -112,11 +118,9 @@ import {
   
     render() {
 
-          const {logedUser}=this.props
-          console.log('from signin component méssa',logedUser.message)
-        if(logedUser.success){
-          Router.push('/login',)
-        }
+           const {logedUser}= this.props;
+     
+      console.log('loéusér',logedUser);
       const { getFieldDecorator } = this.props.form;
   
       const formItemLayout = {
@@ -144,9 +148,9 @@ import {
 
   
       return (
-        <div style={{ background: '#002347',
-         padding: "8% 10px 7% 70px" }}>
-      <Card title={this.props.logedUser.message? <Alert message={this.props.logedUser.message} type="error" /> :''} bordered={false} style={{marginLeft:'30%', width: 500 }}>
+          <Layout>
+            <div class="wrapper">
+            <div class="form-header">Edit Profile</div>
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
         <Form.Item
             label={(
@@ -177,19 +181,6 @@ import {
             )}
           </Form.Item>
 
-          <Form.Item
-            label="E-mail"
-          >
-            {getFieldDecorator('email', {
-              rules: [{
-                type: 'email', message: 'The input is not valid E-mail!',
-              }, {
-                required: true, message: 'Please input your E-mail!',
-              }],
-            })(
-              <Input />
-            )}
-          </Form.Item>
           <Form.Item
             label="Password"
           >
@@ -228,29 +219,18 @@ import {
             )}
           </Form.Item>
           
-          <Form.Item
-          label="Profession"
-        >
-          {getFieldDecorator('gender')(
-            <Radio.Group>
-              <Radio value="Teacher">Teacher</Radio>
-              <Radio value="Students">Student</Radio>
-             
-            </Radio.Group>
-          )}
-        </Form.Item>
-          
           <Form.Item {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit">Register</Button>
-            Or <a href="./login">Login</a>
+            <Button type="primary" htmlType="submit">Edit</Button>
+          
           </Form.Item>
           <Form.Item {...tailFormItemLayout}>
          
           </Form.Item>
         </Form>
       
-        </Card>
+    
         </div>
+        </Layout>
       );
     }
   }
@@ -259,14 +239,13 @@ import {
   
   const mapState = state => ({
     //loading: state.sigin.loading,
-    logedUser: state.sigin.logedUser,
+    logedUser: state.login.logedUser,
   })
   
-  const mapDispatch = ({ sigin: { sigin } }) => ({
-    sigin: (body) => sigin(body)
+  const mapDispatch = ({        updateProfile: {     updateProfile } }) => ({
+      updateProfile: (body) =>     updateProfile(body)
   })
   
   
-  export default  withRematch(store, mapState, mapDispatch)(Form.create({ name: 'normal_signin' })(Signin));
-
+  export default  withRematch(store, mapState, mapDispatch)(Form.create({ name: 'normal_signin' })(Dash));
 

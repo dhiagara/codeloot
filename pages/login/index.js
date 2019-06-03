@@ -6,12 +6,17 @@ import Router from "next/router";
 import { Form, Icon, Card, Input, Button, Checkbox, Alert } from "antd";
 
 class Login extends React.Component {
+
+
   state = {
     loading: false,
     logedUser: {},
     isAuthenticated: false,
     error: ""
   };
+  
+  
+  
   handleSubmit = async e => {
     const { loginn } = this.props;
     const { error } = this.props;

@@ -8,5 +8,6 @@ import getUsers  from './getUsers'
 import CodingModel from './coding'
 import  studentCode from './studentCode'
 import students from './myStudents'
+import updateProfile from './updateProfile'
 
-export { counter, login, sigin, github,upload ,allCourses,getUsers,CodingModel,studentCode,students}
+export { counter, login, sigin, github,upload ,allCourses,getUsers,CodingModel,studentCode,students,updateProfile}
