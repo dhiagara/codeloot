@@ -9,17 +9,30 @@ import {
   
   const { Option } = Select;
   const sctor=[{
-    value: 'xihu',
-    label: 'la1',
+    value: 'LA1',
+    label: 'LA1',
   },
   {
-    value: 'la2',
-    label: 'la2',
+    value: 'LA2',
+    label: 'LA2',
   },
   {
-    value: 'la3',
-    label: 'la3',
-  }]
+    value: 'LA3',
+    label: 'LA3',
+  },
+  {
+  value: 'LF1',
+  label: 'LA1',
+},
+{
+  value: 'LF2',
+  label: 'LF2',
+},
+{
+  value: 'LF3',
+  label: 'LF3',
+}
+]
 
   const state = [{
     value: 'Monastir',
